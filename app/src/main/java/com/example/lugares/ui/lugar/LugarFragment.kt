@@ -12,7 +12,9 @@ import com.example.lugares.viewmodel.LugarViewModel
 
 class LugarFragment : Fragment() {
 
-    private lateinit var LugarViewModel : LugarViewModel
+    private var _binding: FragmentLugarBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var lugarViewModel : LugarViewModel
     private var _binding: FragmentLugarBinding? = null
 
     // This property is only valid between onCreateView and
@@ -24,17 +26,12 @@ class LugarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val LugarViewModel =
-            ViewModelProvider(this).get(LugarViewModel::class.java)
-
+        lugarViewModel =
+            ViewModelProvider(this).(LugarViewModel::class.java)
         _binding = FragmentLugarBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        LugarViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        binding.addLugar.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_lugar_to_addLugarFragment) }
+        return binding.root
     }
 
     override fun onDestroyView() {
